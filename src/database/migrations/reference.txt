@@ -1,0 +1,31 @@
+client
+	id
+	name
+	address
+	birthday
+	marital_status FK (Solteiro(a), Casado(a), Divordiado(a), Viúvo(a), Outros)
+vehicle
+	id
+	year
+	model
+	chassis
+	plate
+	usage FK (Comercial, Particular, Prestação de serviços)
+insurer
+	id
+	name
+	support_phone
+insurance
+	proposal_number
+	policy
+	validity_start
+	validity_end
+	installments
+	bonus_class
+	total_premium
+	observations
+	insurer FK
+	client FK
+	vehicle FK
+	deductible_type FK (Normal, Reduzida)
+	payment_method FK (Boleto Bancário, Cartão de Crédito, Débito em Conta)
