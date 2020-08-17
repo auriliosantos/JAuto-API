@@ -15,17 +15,21 @@
   },
   "private": false,
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.4",
     "pg": "7"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.7",
     "@types/express": "^4.17.7",
-    "ts-node-dev": "^1.0.0-pre.57",
+    "@types/jsonwebtoken": "^8.5.0",
     "rimraf": "^3.0.2",
+    "ts-node-dev": "^1.0.0-pre.57",
     "typescript": "^3.9.7"
   }
 }

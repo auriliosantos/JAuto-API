@@ -1,4 +1,5 @@
 import path from "path";
+require("dotenv").config({ path: __dirname + "/src/.env" });
 
 module.exports = {
   client: "pg",
