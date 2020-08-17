@@ -1,4 +1,4 @@
-import express, { NextFunction } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
 export default function authMiddleware(
@@ -20,10 +20,8 @@ export default function authMiddleware(
   if (!/^Bearer$/i.test(scheme))
     return res.status(401).send({ error: "Malformatted Token" });
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET || "", (err, decoded) => {
     if (err) return res.status(401).send({ error: "Invalid Token" });
-
-    req.userId = decoded.id;
 
     return next();
   });

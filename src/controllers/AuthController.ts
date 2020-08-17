@@ -27,7 +27,7 @@ export default class AuthControler {
     const isAMatch = bcrypt.compareSync(password, hash);
 
     if (isAMatch) {
-      const token = jwt.sign({ id }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ id }, process.env.JWT_SECRET || "", {
         expiresIn: "2 days",
       });
       return response.status(201).send({ name, token });

@@ -8,11 +8,17 @@ const ClientsController_1 = __importDefault(require("./controllers/ClientsContro
 const InsurancesController_1 = __importDefault(require("./controllers/InsurancesController"));
 const InsurersController_1 = __importDefault(require("./controllers/InsurersController"));
 const VehiclesController_1 = __importDefault(require("./controllers/VehiclesController"));
+const AuthController_1 = __importDefault(require("./controllers/AuthController"));
+const authMiddleware_1 = __importDefault(require("./middlewares/authMiddleware"));
 const routes = express_1.default.Router();
+routes.use((req, res, next) => {
+    authMiddleware_1.default(req, res, next);
+});
 const clientsController = new ClientsController_1.default();
 const insurancesController = new InsurancesController_1.default();
 const insurersController = new InsurersController_1.default();
 const vehiclesController = new VehiclesController_1.default();
+const authController = new AuthController_1.default();
 routes.get("/clients", clientsController.index);
 routes.post("/clients", clientsController.create);
 routes.put("/clients/:id", clientsController.update);
@@ -29,4 +35,6 @@ routes.get("/vehicles", vehiclesController.index);
 routes.post("/vehicles", vehiclesController.create);
 routes.put("/vehicles/:id", vehiclesController.update);
 routes.delete("/vehicles/:id", vehiclesController.delete);
+routes.post("/auth/login", authController.login);
+/* routes.post("/auth/register", authController.register); */
 exports.default = routes;

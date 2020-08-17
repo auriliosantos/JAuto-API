@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 
 import ClientsController from "./controllers/ClientsController";
 import InsurancesController from "./controllers/InsurancesController";
@@ -8,7 +8,7 @@ import AuthController from "./controllers/AuthController";
 import authMiddleware from "./middlewares/authMiddleware";
 
 const routes = express.Router();
-routes.use((req, res, next) => {
+routes.use((req: Request, res: Response, next: NextFunction) => {
   authMiddleware(req, res, next);
 });
 
