@@ -7,7 +7,13 @@ import VehiclesController from "./controllers/VehiclesController";
 import AuthController from "./controllers/AuthController";
 import authMiddleware from "./middlewares/authMiddleware";
 
+const authController = new AuthController();
+
 const routes = express.Router();
+
+routes.post("/auth/login", authController.login);
+/* routes.post("/auth/register", authController.register); */
+
 routes.use((req: Request, res: Response, next: NextFunction) => {
   authMiddleware(req, res, next);
 });
@@ -16,7 +22,6 @@ const clientsController = new ClientsController();
 const insurancesController = new InsurancesController();
 const insurersController = new InsurersController();
 const vehiclesController = new VehiclesController();
-const authController = new AuthController();
 
 routes.get("/clients", clientsController.index);
 routes.post("/clients", clientsController.create);
@@ -37,8 +42,5 @@ routes.get("/vehicles", vehiclesController.index);
 routes.post("/vehicles", vehiclesController.create);
 routes.put("/vehicles/:id", vehiclesController.update);
 routes.delete("/vehicles/:id", vehiclesController.delete);
-
-routes.post("/auth/login", authController.login);
-/* routes.post("/auth/register", authController.register); */
 
 export default routes;
