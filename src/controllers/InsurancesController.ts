@@ -8,7 +8,6 @@ export default class InsurancesControler {
       const insurances = await db("insurances").select("*");
       const insurancesInfo = {
         insurers: await db("insurers").select("*"),
-        clients: await db("clients").select("*"),
         vehicles: await db("vehicles").select("*"),
         deductible_types: await db("deductible_types").select("*"),
         payment_methods: await db("payment_methods").select("*"),
@@ -31,7 +30,6 @@ export default class InsurancesControler {
         total_premium,
         observations,
         insurer_id,
-        client_id,
         vehicle_id,
         deductible_type_id,
         payment_method_id,
@@ -39,18 +37,14 @@ export default class InsurancesControler {
 
       if (
         insurer_id == null ||
-        client_id == null ||
         vehicle_id == null ||
         deductible_type_id == null ||
         payment_method_id == null
       )
-        return response.status(400).send();
+        return response.status(400).send({ error: "Campo vazio" });
 
       const insurer_idCheck = await db("insurers").where({
         id: insurer_id,
-      });
-      const client_idCheck = await db("clients").where({
-        id: client_id,
       });
       const vehicle_idCheck = await db("vehicles").where({
         id: vehicle_id,
@@ -64,12 +58,13 @@ export default class InsurancesControler {
 
       if (
         insurer_idCheck.length <= 0 ||
-        client_idCheck.length <= 0 ||
         vehicle_idCheck.length <= 0 ||
         deductible_type_idCheck.length <= 0 ||
         payment_method_idCheck.length <= 0
       ) {
-        return response.status(400).send();
+        return response
+          .status(400)
+          .send({ error: "Relacionamento não existe" });
       }
 
       await db("insurances").insert({
@@ -82,7 +77,6 @@ export default class InsurancesControler {
         total_premium,
         observations,
         insurer_id,
-        client_id,
         vehicle_id,
         deductible_type_id,
         payment_method_id,
@@ -106,7 +100,6 @@ export default class InsurancesControler {
         total_premium,
         observations,
         insurer_id,
-        client_id,
         vehicle_id,
         deductible_type_id,
         payment_method_id,
@@ -122,7 +115,6 @@ export default class InsurancesControler {
         total_premium,
         observations,
         insurer_id,
-        client_id,
         vehicle_id,
         deductible_type_id,
         payment_method_id,

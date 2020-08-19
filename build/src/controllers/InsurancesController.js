@@ -10,7 +10,6 @@ class InsurancesControler {
             const insurances = await connection_1.default("insurances").select("*");
             const insurancesInfo = {
                 insurers: await connection_1.default("insurers").select("*"),
-                clients: await connection_1.default("clients").select("*"),
                 vehicles: await connection_1.default("vehicles").select("*"),
                 deductible_types: await connection_1.default("deductible_types").select("*"),
                 payment_methods: await connection_1.default("payment_methods").select("*"),
@@ -23,18 +22,14 @@ class InsurancesControler {
     }
     async create(request, response) {
         try {
-            const { proposal_number, policy, validity_start, validity_end, installments, bonus_class, total_premium, observations, insurer_id, client_id, vehicle_id, deductible_type_id, payment_method_id, } = request.body;
+            const { proposal_number, policy, validity_start, validity_end, installments, bonus_class, total_premium, observations, insurer_id, vehicle_id, deductible_type_id, payment_method_id, } = request.body;
             if (insurer_id == null ||
-                client_id == null ||
                 vehicle_id == null ||
                 deductible_type_id == null ||
                 payment_method_id == null)
-                return response.status(400).send();
+                return response.status(400).send({ error: "Campo vazio" });
             const insurer_idCheck = await connection_1.default("insurers").where({
                 id: insurer_id,
-            });
-            const client_idCheck = await connection_1.default("clients").where({
-                id: client_id,
             });
             const vehicle_idCheck = await connection_1.default("vehicles").where({
                 id: vehicle_id,
@@ -46,11 +41,12 @@ class InsurancesControler {
                 id: payment_method_id,
             });
             if (insurer_idCheck.length <= 0 ||
-                client_idCheck.length <= 0 ||
                 vehicle_idCheck.length <= 0 ||
                 deductible_type_idCheck.length <= 0 ||
                 payment_method_idCheck.length <= 0) {
-                return response.status(400).send();
+                return response
+                    .status(400)
+                    .send({ error: "Relacionamento não existe" });
             }
             await connection_1.default("insurances").insert({
                 proposal_number,
@@ -62,7 +58,6 @@ class InsurancesControler {
                 total_premium,
                 observations,
                 insurer_id,
-                client_id,
                 vehicle_id,
                 deductible_type_id,
                 payment_method_id,
@@ -76,7 +71,7 @@ class InsurancesControler {
     async update(request, response) {
         try {
             const { id } = request.params;
-            const { proposal_number, policy, validity_start, validity_end, installments, bonus_class, total_premium, observations, insurer_id, client_id, vehicle_id, deductible_type_id, payment_method_id, } = request.body;
+            const { proposal_number, policy, validity_start, validity_end, installments, bonus_class, total_premium, observations, insurer_id, vehicle_id, deductible_type_id, payment_method_id, } = request.body;
             await connection_1.default("insurances").where({ id }).update({
                 proposal_number,
                 policy,
@@ -87,7 +82,6 @@ class InsurancesControler {
                 total_premium,
                 observations,
                 insurer_id,
-                client_id,
                 vehicle_id,
                 deductible_type_id,
                 payment_method_id,

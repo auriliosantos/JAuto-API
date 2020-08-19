@@ -19,18 +19,19 @@ class ClassesControler {
         try {
             const { name, address, birthday, marital_status_id } = request.body;
             if (marital_status_id == null)
-                return response.status(400).send();
+                return response.status(400).send({ error: "Campo vazio" });
             const foreignKeyCheck = await connection_1.default("marital_statuses").where({
                 id: marital_status_id,
             });
-            if (foreignKeyCheck.length <= 0) {
-                return response.status(400).send();
-            }
+            if (foreignKeyCheck.length <= 0)
+                return response
+                    .status(400)
+                    .send({ error: "Relacionamento não existe" });
             await connection_1.default("clients").insert({
-                name,
                 address,
                 birthday,
                 marital_status_id,
+                name,
             });
             return response.status(201).send();
         }

@@ -13,7 +13,7 @@ const authMiddleware_1 = __importDefault(require("./middlewares/authMiddleware")
 const authController = new AuthController_1.default();
 const routes = express_1.default.Router();
 routes.post("/auth/login", authController.login);
-/* routes.post("/auth/register", authController.register); */
+routes.post("/auth/register", authController.register);
 routes.use((req, res, next) => {
     authMiddleware_1.default(req, res, next);
 });

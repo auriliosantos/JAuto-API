@@ -4,15 +4,22 @@ exports.down = exports.up = void 0;
 async function up(knex) {
     return knex.schema.createTable("vehicles", (table) => {
         table.increments("id").primary();
-        table.string("year").notNullable();
+        table.string("year", 10).notNullable();
         table.string("model").notNullable();
-        table.string("chassis").notNullable();
+        table.string("chassis", 17).notNullable();
         table.string("plate").notNullable();
         table
             .integer("usage_type_id")
             .notNullable()
             .references("id")
             .inTable("usage_types")
+            .onUpdate("CASCADE")
+            .onDelete("CASCADE");
+        table
+            .integer("owner_id")
+            .notNullable()
+            .references("id")
+            .inTable("clients")
             .onUpdate("CASCADE")
             .onDelete("CASCADE");
     });
