@@ -5,10 +5,21 @@ import db from "../database/connection";
 export default class ClassesControler {
   async index(request: Request, response: Response) {
     try {
-      const clients = await db("clients").select("*");
-      const clientsInfo = await db("marital_statuses").select("*");
+      const clients = await db("clients")
+        .join(
+          "marital_statuses",
+          "clients.marital_status_id",
+          "marital_statuses.id"
+        )
+        .select(
+          "clients.id",
+          "clients.name",
+          "clients.address",
+          "clients.birthday",
+          "marital_statuses.name as marital_status"
+        );
 
-      return response.json({ clients, clientsInfo });
+      return response.json({ clients });
     } catch (err) {
       return response.status(500).send();
     }

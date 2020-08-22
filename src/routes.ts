@@ -4,6 +4,7 @@ import ClientsController from "./controllers/ClientsController";
 import InsurancesController from "./controllers/InsurancesController";
 import InsurersController from "./controllers/InsurersController";
 import VehiclesController from "./controllers/VehiclesController";
+import InputsController from "./controllers/InputsController";
 import AuthController from "./controllers/AuthController";
 import authMiddleware from "./middlewares/authMiddleware";
 
@@ -22,6 +23,7 @@ const clientsController = new ClientsController();
 const insurancesController = new InsurancesController();
 const insurersController = new InsurersController();
 const vehiclesController = new VehiclesController();
+const inputsController = new InputsController();
 
 routes.get("/clients", clientsController.index);
 routes.post("/clients", clientsController.create);
@@ -42,5 +44,13 @@ routes.get("/vehicles", vehiclesController.index);
 routes.post("/vehicles", vehiclesController.create);
 routes.put("/vehicles/:id", vehiclesController.update);
 routes.delete("/vehicles/:id", vehiclesController.delete);
+
+routes.get("/input/clients", inputsController.clients);
+routes.get("/input/deductible_types", inputsController.deductible_types);
+routes.get("/input/insurers", inputsController.insurers);
+routes.get("/input/marital_statuses", inputsController.marital_statuses);
+routes.get("/input/payment_methods", inputsController.payment_methods);
+routes.get("/input/usage_types", inputsController.usage_types);
+routes.get("/input/vehicles", inputsController.vehicles);
 
 export default routes;

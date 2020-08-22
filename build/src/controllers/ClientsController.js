@@ -7,9 +7,10 @@ const connection_1 = __importDefault(require("../database/connection"));
 class ClassesControler {
     async index(request, response) {
         try {
-            const clients = await connection_1.default("clients").select("*");
-            const clientsInfo = await connection_1.default("marital_statuses").select("*");
-            return response.json({ clients, clientsInfo });
+            const clients = await connection_1.default("clients")
+                .join("marital_statuses", "clients.marital_status_id", "marital_statuses.id")
+                .select("clients.id", "clients.name", "clients.address", "clients.birthday", "marital_statuses.name as marital_status");
+            return response.json({ clients });
         }
         catch (err) {
             return response.status(500).send();

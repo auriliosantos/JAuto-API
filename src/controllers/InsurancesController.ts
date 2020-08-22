@@ -5,15 +5,38 @@ import db from "../database/connection";
 export default class InsurancesControler {
   async index(request: Request, response: Response) {
     try {
-      const insurances = await db("insurances").select("*");
-      const insurancesInfo = {
-        insurers: await db("insurers").select("*"),
-        vehicles: await db("vehicles").select("*"),
-        deductible_types: await db("deductible_types").select("*"),
-        payment_methods: await db("payment_methods").select("*"),
-      };
+      const insurances = await db("insurances")
+        .join("insurers", "insurances.insurer_id", "insurers.id")
+        .join("vehicles", "insurances.vehicle_id", "vehicles.id")
+        .join(
+          "deductible_types",
+          "insurances.deductible_type_id",
+          "deductible_types.id"
+        )
+        .join(
+          "payment_methods",
+          "insurances.payment_method_id",
+          "payment_methods.id"
+        )
+        .join("clients", "vehicles.owner_id", "clients.id")
+        .select(
+          "insurances.id",
+          "insurances.proposal_number",
+          "insurances.validity_start",
+          "insurances.validity_end",
+          "insurances.installments",
+          "insurances.bonus_class",
+          "insurances.total_premium",
+          "insurances.observations",
+          "insurers.name as insurer",
+          "vehicles.plate as vehicle_plate",
+          "vehicles.chassis as vehicle_chassis",
+          "deductible_types.name as deductible_type",
+          "payment_methods.name as payment_method",
+          "clients.name as client"
+        );
 
-      return response.json({ insurances, insurancesInfo });
+      return response.json({ insurances });
     } catch (err) {
       return response.status(500).send();
     }

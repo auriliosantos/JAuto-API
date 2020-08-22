@@ -5,13 +5,20 @@ import db from "../database/connection";
 export default class VehiclesControler {
   async index(request: Request, response: Response) {
     try {
-      const vehicles = await db("vehicles").select("*");
-      const vehiclesInfo = {
-        usage_types: await db("usage_types").select("*"),
-        clients: await db("clients").select("*"),
-      };
+      const vehicles = await db("vehicles")
+        .join("usage_types", "vehicles.usage_type_id", "usage_types.id")
+        .join("clients", "vehicles.owner_id", "clients.id")
+        .select(
+          "vehicles.id",
+          "vehicles.year",
+          "vehicles.model",
+          "vehicles.chassis",
+          "vehicles.plate",
+          "usage_types.name as usage_type",
+          "clients.name as owner"
+        );
 
-      return response.json({ vehicles, vehiclesInfo });
+      return response.json({ vehicles });
     } catch (err) {
       return response.status(500).send();
     }
