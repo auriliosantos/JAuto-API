@@ -22,6 +22,7 @@ export default class InsurancesControler {
         .select(
           "insurances.id",
           "insurances.proposal_number",
+          "insurances.policy",
           "insurances.validity_start",
           "insurances.validity_end",
           "insurances.installments",

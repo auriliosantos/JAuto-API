@@ -13,7 +13,7 @@ class InsurancesControler {
                 .join("deductible_types", "insurances.deductible_type_id", "deductible_types.id")
                 .join("payment_methods", "insurances.payment_method_id", "payment_methods.id")
                 .join("clients", "vehicles.owner_id", "clients.id")
-                .select("insurances.id", "insurances.proposal_number", "insurances.validity_start", "insurances.validity_end", "insurances.installments", "insurances.bonus_class", "insurances.total_premium", "insurances.observations", "insurers.name as insurer", "vehicles.plate as vehicle_plate", "vehicles.chassis as vehicle_chassis", "deductible_types.name as deductible_type", "payment_methods.name as payment_method", "clients.name as client");
+                .select("insurances.id", "insurances.proposal_number", "insurances.policy", "insurances.validity_start", "insurances.validity_end", "insurances.installments", "insurances.bonus_class", "insurances.total_premium", "insurances.observations", "insurers.name as insurer", "vehicles.plate as vehicle_plate", "vehicles.chassis as vehicle_chassis", "deductible_types.name as deductible_type", "payment_methods.name as payment_method", "clients.name as client");
             return response.json({ insurances });
         }
         catch (err) {
