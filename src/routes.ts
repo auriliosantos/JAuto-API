@@ -12,7 +12,7 @@ const authController = new AuthController();
 const routes = express.Router();
 
 routes.post("/auth/login", authController.login);
-routes.post("/auth/register", authController.register);
+/* routes.post("/auth/register", authController.register); */
 
 routes.use((req: Request, res: Response, next: NextFunction) => {
   authMiddleware(req, res, next);
